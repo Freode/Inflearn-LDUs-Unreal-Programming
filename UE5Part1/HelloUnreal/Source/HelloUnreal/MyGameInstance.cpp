@@ -1,7 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "MyGameInstance.h"
+#include "Student.h"
+#include "Teacher.h"
+
+// cpp 파일 오브젝트에서도 헤더 순서를 조심해야 함.
+// 현재 클래스 이름의 헤더가 가장 위에 선언되어야 함.
 
 void UMyGameInstance::Init()
 {
@@ -126,6 +130,44 @@ void UMyGameInstance::Init()
 	UE_LOG(LogTemp, Log, TEXT("학교 이름 기본값 : %s"), *GetClass()->GetDefaultObject<UMyGameInstance>()->SchoolName);
 
 	UE_LOG(LogTemp, Log, TEXT("====================="));
+
+	// 객체 생성
+	// NewObject<>를 통해서 생성해야 함.
+	UStudent* Student = NewObject<UStudent>();
+	UTeacher* Teacher = NewObject<UTeacher>();
+
+	Student->SetName(TEXT("학생 1"));
+	// Getter로 이름 가져오기
+	UE_LOG(LogTemp, Log, TEXT("새로운 학생 이름 : %s"), *Student->GetName());
+
+	// 리플렉션 시스템에서 지원하는 기능(프로퍼티 디시져)을 사용해 이름 가져오기
+	// 속성 포인터를 이름으로 가져오기 -> 해당 속성에 대한 포인터를 가져오는 것
+	FString CurrentTeacherName;
+	FString NewTeacherName(TEXT("이득우"));
+	FProperty* NameProp = UTeacher::StaticClass()->FindPropertyByName(TEXT("Name"));
+	// null이 아니면 사용 가능
+	if (NameProp)
+	{
+		// NameProp에서 속성에 대해서 우리가 지정한 인스턴스에 대한 값을 가져오는 방법
+		NameProp->GetValue_InContainer(Teacher, &CurrentTeacherName);
+		UE_LOG(LogTemp, Log, TEXT("현재 선생님 이름 : %s"), *CurrentTeacherName);
+
+		NameProp->SetValue_InContainer(Teacher, &NewTeacherName);
+		UE_LOG(LogTemp, Log, TEXT("새로운 선생님 이름 : %s"), *Teacher->GetName());
+	}
+
+	UE_LOG(LogTemp, Log, TEXT("====================="));
+
+	Student->DoLesson();
+	// 리플렉션 시스템을 통해서 함수 호출하기 위해서는 UFUNCTION에 대한 포인터 값을 알아야 함.
+	UFunction* DoLessonFunc = Teacher->GetClass()->FindFunctionByName(TEXT("DoLesson"));
+	// Function에 대한 객체를 찾은 경우
+	if (DoLessonFunc)
+	{
+		// 함수 포인터를 통해서 호출
+		// DoLesson 함수는 인자가 없기 때문에, nullptr로 넣음.
+		Teacher->ProcessEvent(DoLessonFunc, nullptr);
+	}
 }
 
 // 생성자
