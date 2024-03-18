@@ -88,4 +88,55 @@ void UMyGameInstance::Init()
 
 	//	// 두 번째 방식이 더 효과적이다.
 	//}
+
+	UE_LOG(LogTemp, Log, TEXT("====================="));
+	// 런타임에서 클래스 정보 가져오기
+	// 아래 둘을 동일한 객체를 가리킴.
+	UClass* ClassRuntime = GetClass();
+	UClass* ClassCompile = UMyGameInstance::StaticClass();
+	// if 문 보다는 제대로 검증하고 다음 단계로 넘어가기 위해서
+	// check 라는 어설션(Assertion) 함수를 사용
+
+	// 만약에, Assertion이 실패하면, 에디터 꺼지고 크래쉬 오류가 나면서
+	// 오류 원인을 알려줌.
+	// 게임 모드로 구동하는 경우에는 해당 Assertion이 모두 사라지므로 안심하고 사용해도 됨.
+	check(ClassRuntime == ClassCompile);
+	// check(ClassRuntime != ClassCompile);
+
+	// check는 에디터가 꺼지기 때문에, 불편할 수 있음.
+	// 따라서, ensure를 사용해서 에디터가 꺼지지 않고도 문제점을 확일할 수 있음.
+	// 오류 구문은 Output Log에서 "=== Handled ensure: ==="로 출력됨.
+	// ensure(ClassRuntime == ClassCompile);
+
+	UE_LOG(LogTemp, Log, TEXT("학교를 담당하는 클래스 이름 : %s"), *ClassRuntime->GetName());
+
+	// 메시지를 남기고 싶을 때
+	// ensureMsgf(ClassRuntime != ClassCompile, TEXT("일부러 에러를 발생시킨 코드"));
+
+	// 이렇게 해도 생성자에서 기본값을 설정된 값은 사라지지 않음.
+	// CDO 템플릿 객체에 저장되기 때문
+	SchoolName = TEXT("울산대학교");
+
+	UE_LOG(LogTemp, Log, TEXT("학교 이름 : %s"), *SchoolName);
+
+	// 출력되지 않는 경우가 종종 발생함.
+	// CDO는 에디터가 활성화되기 이전에 초기화되는 순서를 가지고 있어서
+	// 생성자에서 초기화를 해도 에디터에서 인지못하는 경우가 종종 있음.
+	// <중요> CDO를 고쳐주는 생성자를 고칠 때는, Header파일과 똑같이 에디터를 끈 후에 에디터에서 컴파일 해줘야 함.
+	UE_LOG(LogTemp, Log, TEXT("학교 이름 기본값 : %s"), *GetClass()->GetDefaultObject<UMyGameInstance>()->SchoolName);
+
+	UE_LOG(LogTemp, Log, TEXT("====================="));
+}
+
+// 생성자
+UMyGameInstance::UMyGameInstance()
+{
+	// 여기에 F9 키를 통해 브레이크를 걸어준 뒤, F5로 디버깅하면
+	// 75%가 지난 시점에서 브레이크 포인트가 잡힘.
+	// 엔진이 초기화되는 과정에서 CDO, UClass 정보가 만들어지고
+	// 해당 정보가 다 만들어진 후에, 에디터, 게임과 같은 어플리케이션이 진행됨.
+
+	// 기본값 지정해주기
+	// CDO라고 하는 템플릿 객체에 저장됨.
+	SchoolName = TEXT("기본학교");
 }
