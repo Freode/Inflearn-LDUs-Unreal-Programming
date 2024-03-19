@@ -19,15 +19,18 @@ public:
 	UPerson();
 
 	// 
-	UFUNCTION()
-	virtual void DoLesson();
+	// UFUNCTION()
+	// virtual void DoLesson();
 
 	// 변경되지 않을 것이므로 const로 지정
 	// Getter
-	const FString& GetName() const;
+
+	// FORCEINLINE 키워드 : Inline으로 작동하는게 더 빠름.
+	// Inline으로 전부 다 보장하지는 않음.
+	FORCEINLINE FString& GetName() { return Name; }
 
 	// Setter
-	void SetName(const FString& InName);
+	FORCEINLINE void SetName(const FString& InName) { Name = InName; }
 
 protected:
 

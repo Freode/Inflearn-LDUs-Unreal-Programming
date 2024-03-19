@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "Person.h"
+#include "LessonInterface.h"
 #include "Student.generated.h"
 
 /**
@@ -12,7 +13,7 @@
  * 따라서, 그 위에다가 선언해야 함.
  */
 UCLASS()
-class HELLOUNREAL_API UStudent : public UPerson
+class HELLOUNREAL_API UStudent : public UPerson, public ILessonInterface
 {
 	GENERATED_BODY()
 	
