@@ -5,23 +5,16 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "Person.h"
-#include "LessonInterface.h"
-#include "Teacher.generated.h"
+#include "Staff.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class HELLOUNREAL_API UTeacher : public UPerson, public ILessonInterface
+class HELLOUNREAL_API UStaff : public UPerson
 {
 	GENERATED_BODY()
 	
 public:
-	UTeacher();
-
-	virtual void DoLesson() override;
-
-private:
-	UPROPERTY()
-	int32 Id;
+	UStaff();
 };

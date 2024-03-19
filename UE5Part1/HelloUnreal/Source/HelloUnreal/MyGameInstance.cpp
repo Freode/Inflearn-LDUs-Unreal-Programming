@@ -3,6 +3,7 @@
 #include "MyGameInstance.h"
 #include "Student.h"
 #include "Teacher.h"
+#include "Staff.h"
 
 // cpp 파일 오브젝트에서도 헤더 순서를 조심해야 함.
 // 현재 클래스 이름의 헤더가 가장 위에 선언되어야 함.
@@ -93,6 +94,7 @@ void UMyGameInstance::Init()
 	//	// 두 번째 방식이 더 효과적이다.
 	//}
 
+	// ================ Part 1 - 5 ================
 	UE_LOG(LogTemp, Log, TEXT("====================="));
 	// 런타임에서 클래스 정보 가져오기
 	// 아래 둘을 동일한 객체를 가리킴.
@@ -131,6 +133,7 @@ void UMyGameInstance::Init()
 
 	UE_LOG(LogTemp, Log, TEXT("====================="));
 
+	// ================ Part 1 - 6 ================
 	// 객체 생성
 	// NewObject<>를 통해서 생성해야 함.
 	UStudent* Student = NewObject<UStudent>();
@@ -158,16 +161,44 @@ void UMyGameInstance::Init()
 
 	UE_LOG(LogTemp, Log, TEXT("====================="));
 
-	Student->DoLesson();
-	// 리플렉션 시스템을 통해서 함수 호출하기 위해서는 UFUNCTION에 대한 포인터 값을 알아야 함.
-	UFunction* DoLessonFunc = Teacher->GetClass()->FindFunctionByName(TEXT("DoLesson"));
-	// Function에 대한 객체를 찾은 경우
-	if (DoLessonFunc)
+	//Student->DoLesson();
+	//// 리플렉션 시스템을 통해서 함수 호출하기 위해서는 UFUNCTION에 대한 포인터 값을 알아야 함.
+	//UFunction* DoLessonFunc = Teacher->GetClass()->FindFunctionByName(TEXT("DoLesson"));
+	//// Function에 대한 객체를 찾은 경우
+	//if (DoLessonFunc)
+	//{
+	//	// 함수 포인터를 통해서 호출
+	//	// DoLesson 함수는 인자가 없기 때문에, nullptr로 넣음.
+	//	Teacher->ProcessEvent(DoLessonFunc, nullptr);
+	//}
+
+	// ================ Part 1 - 7 ================
+	// TArray 사용해보기 : 동적 가변 배열
+	UE_LOG(LogTemp, Log, TEXT("====================="));
+	TArray<UPerson*> Persons = { NewObject<UStudent>(), NewObject<UTeacher>(), NewObject<UStaff>() };
+
+	for (const auto Person : Persons)
 	{
-		// 함수 포인터를 통해서 호출
-		// DoLesson 함수는 인자가 없기 때문에, nullptr로 넣음.
-		Teacher->ProcessEvent(DoLessonFunc, nullptr);
+		UE_LOG(LogTemp, Log, TEXT("구성원 이름 : %s"), *Person->GetName());
 	}
+	UE_LOG(LogTemp, Log, TEXT("====================="));
+
+	for (const auto Person : Persons)
+	{
+		// 형변환
+		// 해당 인터페이스를 가지고 있지 않으면, null 값이 반환됨.
+		ILessonInterface* LessonInterface = Cast<ILessonInterface>(Person);
+		if (LessonInterface)
+		{
+			UE_LOG(LogTemp, Log, TEXT("%s님은 수업에 참여할 수 있습니다."), *Person->GetName());
+			LessonInterface->DoLesson();
+		}
+		else
+		{
+			UE_LOG(LogTemp, Log, TEXT("%s님은 수업에 참여할 수 없습니다."), *Person->GetName());
+		}
+	}
+	UE_LOG(LogTemp, Log, TEXT("====================="));
 }
 
 // 생성자

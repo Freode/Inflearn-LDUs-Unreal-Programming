@@ -10,18 +10,18 @@ UPerson::UPerson()
 	Year = 1;
 }
 
-void UPerson::DoLesson()
-{
-	UE_LOG(LogTemp, Log, TEXT("%s님이 수업에 참여합니다."), *Name);
-}
+//void UPerson::DoLesson()
+//{
+//	UE_LOG(LogTemp, Log, TEXT("%s님이 수업에 참여합니다."), *Name);
+//}
 
-const FString& UPerson::GetName() const
-{
-	// TODO: insert return statement here
-	return Name;
-}
-
-void UPerson::SetName(const FString& InName)
-{
-	Name = InName;
-}
+//const FString& UPerson::GetName() const
+//{
+//	// TODO: insert return statement here
+//	return Name;
+//}
+//
+//void UPerson::SetName(const FString& InName)
+//{
+//	Name = InName;
+//}

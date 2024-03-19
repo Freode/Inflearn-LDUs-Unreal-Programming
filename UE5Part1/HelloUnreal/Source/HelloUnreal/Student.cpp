@@ -13,7 +13,13 @@ UStudent::UStudent()
 
 void UStudent::DoLesson()
 {
-	Super::DoLesson();
+	// Super 사용 불가능 -> Super로는 UPerson이 지정되어 있기 때문.
+	// 클래스 정보에 대해서는 단일 상속만 지원
+	// Super::DoLesson();
 
-	UE_LOG(LogTemp, Log, TEXT("%d학년 %d번 %s님이 수업을 듣습니다."), Year, Id, *Name);
+	// UE_LOG(LogTemp, Log, TEXT("%d학년 %d번 %s님이 수업을 듣습니다."), Year, Id, *Name);
+
+	// 아래 방식으로 호출해야 함.
+	ILessonInterface::DoLesson();
+	UE_LOG(LogTemp, Log, TEXT("%s님은 공부합니다."), *Name);
 }
