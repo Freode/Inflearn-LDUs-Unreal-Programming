@@ -2,6 +2,7 @@
 
 
 #include "Student.h"
+#include "Card.h"
 
 // 생성자
 UStudent::UStudent()
@@ -9,6 +10,11 @@ UStudent::UStudent()
 	Name = TEXT("이학생");
 	Year = 1;
 	Id = 1;
+
+	// ======== Part 1 - 8 =========
+	// 부모 클래스의 생성자가 먼저 실행되고 자식 클래스의 생성자가 실행되기 때문에
+	// CreateDefaultSubobject<T>()를 다시 호출할 필요 없음.
+	Card->SetCardType(ECardType::Student);
 }
 
 void UStudent::DoLesson()

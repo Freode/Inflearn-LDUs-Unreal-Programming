@@ -4,6 +4,7 @@
 #include "Student.h"
 #include "Teacher.h"
 #include "Staff.h"
+#include "Card.h"
 
 // cpp 파일 오브젝트에서도 헤더 순서를 조심해야 함.
 // 현재 클래스 이름의 헤더가 가장 위에 선언되어야 함.
@@ -196,6 +197,30 @@ void UMyGameInstance::Init()
 		else
 		{
 			UE_LOG(LogTemp, Log, TEXT("%s님은 수업에 참여할 수 없습니다."), *Person->GetName());
+		}
+	}
+	UE_LOG(LogTemp, Log, TEXT("====================="));
+
+	// ======== Part 1 - 8 =========
+
+	for (const auto Person : Persons)
+	{
+		const UCard* OwnCard = Person->GetCard();
+		// 어차피 포함관계이기 때문에 반드시 존재함. 따라서, if문 쓰면 코드가 복잡해지므로 check를 쓰는것도 하나의 방법
+		// if(OwnCard)
+		check(OwnCard);
+		ECardType CardType = OwnCard->GetCardType();
+		UE_LOG(LogTemp, Log, TEXT("%s님이 소유한 카드 종류 %d"), *Person->GetName(), CardType);
+
+		// 열거형에 적혀있는 META 타입의 DisplayName 출력하기
+		// TEXT에 들어가는 절대 값, 절대 주솟값을 사용해서 원하는 타입을 가져올 수 있음. 
+		// /Script/모듈이름.찾고 싶은 타입
+		const UEnum* CardEnumType = FindObject<UEnum>(nullptr, TEXT("/Script/HelloUnreal.ECardType"));
+		if (CardEnumType)
+		{
+			// 텍스트로 반환되기 때문에, 출력할 때는 String으로 변경
+			FString CardMetaData = CardEnumType->GetDisplayNameTextByValue((int64)CardType).ToString();
+			UE_LOG(LogTemp, Log, TEXT("%s님이 소유한 카드 종류 %s"), *Person->GetName(), *CardMetaData);
 		}
 	}
 	UE_LOG(LogTemp, Log, TEXT("====================="));
