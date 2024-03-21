@@ -2,12 +2,18 @@
 
 
 #include "Person.h"
+#include "Card.h"
 
 // 생성자
 UPerson::UPerson()
 {
 	Name = TEXT("홍길동");
 	Year = 1;
+
+	// ======== Part 1 - 8 =========
+	// CreateDefaultSubobject()의 첫 파라미터는 고유한 이름을 넣어줘야 함.
+	// 접두사 NAME을 넣으면, 가독성 향상.
+	Card = CreateDefaultSubobject<UCard>(TEXT("NAME_Card"));
 }
 
 //void UPerson::DoLesson()
