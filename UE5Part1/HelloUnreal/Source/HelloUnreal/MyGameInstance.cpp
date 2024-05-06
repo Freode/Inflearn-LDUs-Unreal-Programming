@@ -5,6 +5,7 @@
 #include "Teacher.h"
 #include "Staff.h"
 #include "Card.h"
+#include "CourseInfo.h"
 
 // cpp 파일 오브젝트에서도 헤더 순서를 조심해야 함.
 // 현재 클래스 이름의 헤더가 가장 위에 선언되어야 함.
@@ -13,6 +14,7 @@ void UMyGameInstance::Init()
 {
 	Super::Init();
 
+	// ================ Part 1 - 5 이전 ================
 	//UE_LOG(LogTemp, Log, TEXT("%s"), TEXT("Hello Unreal!"));
 
 	TCHAR LogCharArray[] = TEXT("Hello Unreal");
@@ -224,6 +226,42 @@ void UMyGameInstance::Init()
 		}
 	}
 	UE_LOG(LogTemp, Log, TEXT("====================="));
+
+	// ================ Part 1 - 9 ================
+
+	// NewObject의 Outer
+	// 우리가 생성한 객체는 클래스 멤버 변수에 들어가서 앞으로 관리를 받고
+	// 특별한 이유가 있지 않는 한, 계속 메모리가 유지 됨.
+
+	// MyGameInstance(학교)는 CourseInfo(학사정보)를 포함해줘야 함.
+	// 
+	// 컴포지션 관계 설정
+	// MyGameInstance를 CourseInfo의 Outer로 선언
+	// CourseInfo는 MyGameInstance의 서브 오브젝트
+	CourseInfo = NewObject<UCourseInfo>(this);
+
+	// 아래 오브젝트는 자동으로 소멸되기 때문에, outer를 지정할 필요 없음.
+	UStudent* Student1 = NewObject<UStudent>();
+	Student1->SetName(TEXT("학생1"));
+
+	UStudent* Student2 = NewObject<UStudent>();
+	Student2->SetName(TEXT("학생2"));
+
+	UStudent* Student3 = NewObject<UStudent>();
+	Student3->SetName(TEXT("학생3"));
+
+	// 위에서 만든 Student 객체를 각각 연결
+	// AddUObject 함수 사용 : 어떤 클래스 인스턴스를 지정하고 멤버 함수를 직접 묶을 수 있음.
+	// 구독(Add) 과정 완료
+	CourseInfo->OnChanged.AddUObject(Student1, &UStudent::GetNotification);
+	CourseInfo->OnChanged.AddUObject(Student2, &UStudent::GetNotification);
+	CourseInfo->OnChanged.AddUObject(Student3, &UStudent::GetNotification);
+
+	// 학사 정보 변경됐다고 알림 주기
+	CourseInfo->ChangeCourseInfo(SchoolName, TEXT("변경된 학사 정보"));
+
+	UE_LOG(LogTemp, Log, TEXT("====================="));
+
 }
 
 // 생성자
@@ -237,4 +275,7 @@ UMyGameInstance::UMyGameInstance()
 	// 기본값 지정해주기
 	// CDO라고 하는 템플릿 객체에 저장됨.
 	SchoolName = TEXT("기본학교");
+
+	// ======== Part 1 - 9 =========
+	SchoolName = TEXT("학교");
 }

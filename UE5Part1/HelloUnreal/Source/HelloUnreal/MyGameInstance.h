@@ -28,4 +28,11 @@ private:
 	// 가져올 수 있음.
 	UPROPERTY()
 	FString SchoolName;
+
+	// ======== Part 1 - 9 =========
+	// 학사 정보는 언리얼 오브젝트이고
+	// 포인터로 관리하기 때문에 전방 선언이 가능
+	// 언리얼 오브젝트 포인터를 멤버 변수로 지정할 때는 TObjectPtr을 사용해야 함.
+	UPROPERTY()
+	TObjectPtr<class UCourseInfo> CourseInfo;
 };
