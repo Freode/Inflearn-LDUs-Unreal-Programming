@@ -23,6 +23,11 @@ public:
 
 	virtual void DoLesson() override;
 
+	// ======== Part 1 - 9 =========
+	// 알림을 받는 함수 필요
+	// 델리게이트 전송 함수의 인자와 똑같은 형태의 인자를 가지고 있어야 함.
+	void GetNotification(const FString& School, const FString& NewCourseInfo);
+
 private:
 
 	UPROPERTY()
