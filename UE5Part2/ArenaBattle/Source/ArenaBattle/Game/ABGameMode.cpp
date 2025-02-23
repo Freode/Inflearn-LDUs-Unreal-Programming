@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "Game/ABGameMode.h"
@@ -7,7 +7,7 @@
 
 AABGameMode::AABGameMode()
 {
-	// C++ Å¬·¡½º°¡ ¾Æ´Ñ °ÍÀº ¿ì¸®°¡ ¾Ö¼ÂÀ¸·ÎºÎÅÍ Á¤º¸¸¦ °¡Á®¿Í¾ß ÇÔ.
+	// C++ í´ë˜ìŠ¤ê°€ ì•„ë‹Œ ê²ƒì€ ìš°ë¦¬ê°€ ì• ì…‹ìœ¼ë¡œë¶€í„° ì •ë³´ë¥¼ ê°€ì ¸ì™€ì•¼ í•¨.
 	static ConstructorHelpers::FClassFinder<APawn> ThirdPersonClassRef(TEXT("/Game/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.BP_ThirdPersonCharacter_C"));
 
 	if (ThirdPersonClassRef.Class)
@@ -15,11 +15,11 @@ AABGameMode::AABGameMode()
 		DefaultPawnClass = ThirdPersonClassRef.Class;
 	}
 
-	// C++ Å¬·¡½º´Â ÀÌ·¸°Ô Á¤º¸¸¦ °¡Á®¿Ã ¼ö ÀÖÀ½.
+	// C++ í´ë˜ìŠ¤ëŠ” ì´ë ‡ê²Œ ì •ë³´ë¥¼ ê°€ì ¸ì˜¬ ìˆ˜ ìˆìŒ.
 	PlayerControllerClass = AABPlayerController::StaticClass();
 
-	// C++ Å¬·¡½º¿¡ ´ëÇÑ Çì´õ ÆÄÀÏÀ» include ÇÏÁö ¾Ê°í »ç¿ë
-	// ±âº»À¸·Î ¾ğ¸®¾ó Å¬·¡½º°¡ º¹Á¦µÈ °ÍÀÌ¹Ç·Î °¡´É 
+	// C++ í´ë˜ìŠ¤ì— ëŒ€í•œ í—¤ë” íŒŒì¼ì„ include í•˜ì§€ ì•Šê³  ì‚¬ìš©
+	// ê¸°ë³¸ìœ¼ë¡œ ì–¸ë¦¬ì–¼ í´ë˜ìŠ¤ê°€ ë³µì œëœ ê²ƒì´ë¯€ë¡œ ê°€ëŠ¥ 
 	//static ConstructorHelpers::FClassFinder<APlayerController> PlayerControllerRef(TEXT("/Script/ArenaBattle.ABPlayerController'"));
 	//if (PlayerControllerRef.Class)
 	//{
