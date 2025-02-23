@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "Player/ABPlayerController.h"
@@ -8,7 +8,7 @@ void AABPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ½ÃÀÛÇÏÀÚ ¸¶ÀÚ Focus¸¦ ºäÆ÷Æ®¿¡ ÁöÁ¤
+	// ì‹œì‘í•˜ì ë§ˆì Focusë¥¼ ë·°í¬íŠ¸ì— ì§€ì •
 	FInputModeGameOnly GameOnlyInputMode;
 	SetInputMode(GameOnlyInputMode);
 }
