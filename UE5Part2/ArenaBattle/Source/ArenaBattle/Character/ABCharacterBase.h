@@ -6,6 +6,13 @@
 #include "GameFramework/Character.h"
 #include "ABCharacterBase.generated.h"
 
+UENUM()
+enum class ECharacterControlType : uint8
+{
+	Shoulder,
+	Quater
+};
+
 // NPC 용
 
 UCLASS()
@@ -20,6 +27,12 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	virtual void SetCharacterControlData(const class UABCharacterControlData* CharacterControlData);
+
+	// Control Type에 따라 캐릭터 컨트롤 데이터를 관리하는 Map
+	UPROPERTY(EditAnywhere, Category = CharacterControl, Meta = (AllowPrivateAccess = "true"))
+	TMap<ECharacterControlType, class UABCharacterControlData*> CharacterControlManager;
 
 public:	
 	// Called every frame
