@@ -7,13 +7,20 @@
 
 AABGameMode::AABGameMode()
 {
-	// C++ 클래스가 아닌 것은 우리가 애셋으로부터 정보를 가져와야 함.
-	static ConstructorHelpers::FClassFinder<APawn> ThirdPersonClassRef(TEXT("/Game/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.BP_ThirdPersonCharacter_C"));
 
-	if (ThirdPersonClassRef.Class)
+	static ConstructorHelpers::FClassFinder<APawn> DefaultPawnClassRef(TEXT("/Script/ArenaBattle.ABCharacterPlayer"));
+	if (DefaultPawnClassRef.Class)
 	{
-		DefaultPawnClass = ThirdPersonClassRef.Class;
+		DefaultPawnClass = DefaultPawnClassRef.Class;
 	}
+
+	// C++ 클래스가 아닌 것은 우리가 애셋으로부터 정보를 가져와야 함.
+	//static ConstructorHelpers::FClassFinder<APawn> ThirdPersonClassRef(TEXT("/Game/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.BP_ThirdPersonCharacter_C"));
+
+	//if (ThirdPersonClassRef.Class)
+	//{
+	//	DefaultPawnClass = ThirdPersonClassRef.Class;
+	//}
 
 	// C++ 클래스는 이렇게 정보를 가져올 수 있음.
 	PlayerControllerClass = AABPlayerController::StaticClass();

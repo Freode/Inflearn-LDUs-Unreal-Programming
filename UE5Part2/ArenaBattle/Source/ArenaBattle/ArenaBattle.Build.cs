@@ -11,7 +11,7 @@ public class ArenaBattle : ModuleRules
 		// 시작할 때, 경로를 맞춰주기 위해 모듈 이름 추가
 		PublicIncludePaths.AddRange(new string[] { "ArenaBattle" });
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
