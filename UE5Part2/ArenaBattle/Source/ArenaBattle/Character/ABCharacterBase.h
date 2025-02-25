@@ -34,6 +34,28 @@ protected:
 	UPROPERTY(EditAnywhere, Category = CharacterControl, Meta = (AllowPrivateAccess = "true"))
 	TMap<ECharacterControlType, class UABCharacterControlData*> CharacterControlManager;
 
+// Combo Action Section
+protected:
+
+	void ProcessComboCommand();
+
+	void ComboActionBegin();
+	void ComboActionEnd(class UAnimMontage* TargetMontage, bool IsProperlyEnded);
+
+	void SetComboCheckTimer();
+	void ComboCheck();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animation)
+	TObjectPtr<class UAnimMontage> ComboActionMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animation)
+	TObjectPtr<class UABComboActionData> ComboActionData;
+
+	int32 CurrentCombo = 0;
+	FTimerHandle ComboTimerHandle;
+	// UPROPERTY로 선언하지 않아서 uint8에 비트 마스크 1을 사용할 필요 없음.
+	bool HasNextComboCommand = false;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
